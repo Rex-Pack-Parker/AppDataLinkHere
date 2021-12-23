@@ -1,5 +1,5 @@
 
-'ĞèÒªÉèÖÃÄãµÄ×ª½ÓÎÄ¼ş¼Ğ(¾ø¶ÔÂ·¾¶,²¢´ø\ºÅ½áÎ²) ¿ÕÔòÒÔ¸Ã¹¤¾ßËùÔÚµÄÎÄ¼ş¼ĞÏÂ´´½¨
+'éœ€è¦è®¾ç½®ä½ çš„è½¬æ¥æ–‡ä»¶å¤¹(ç»å¯¹è·¯å¾„,å¹¶å¸¦\å·ç»“å°¾) ç©ºåˆ™ä»¥è¯¥å·¥å…·æ‰€åœ¨çš„æ–‡ä»¶å¤¹ä¸‹åˆ›å»º
 Dim NewPath:NewPath = ""
 
 
@@ -33,27 +33,28 @@ Dim TargetPath:TargetPath = ""
 '----
 If NewPath = "" Then NewPath = ScriptPath & "AppData\"
 
+If Not FSO.FolderExists(NewPath) Then SA.NameSpace(PathCC(ScriptPath)).NewFolder "AppData"
 If Not FSO.FolderExists(NewPath & "Local") Then SA.NameSpace(PathCC(NewPath)).NewFolder "Local"
 If Not FSO.FolderExists(NewPath & "LocalLow") Then SA.NameSpace(PathCC(NewPath)).NewFolder "LocalLow"
 If Not FSO.FolderExists(NewPath & "Roaming") Then SA.NameSpace(PathCC(NewPath)).NewFolder "Roaming"
 With STD
 	.PrintL "	"
-	.PrintL "	[AppDataÎÄ¼ş¼Ğ×ª½Ó¹¤¾ß]"
-	.PrintL "	 Ñ¡Ôñ·ÖÖ§ > Ñ¡ÔñÎÄ¼ş¼ĞĞòºÅ = ×ª½Ó"
-	.PrintL "	 ´æ´¢Â·¾¶¿ÉĞŞ¸Ä±¾¹¤¾ß´úÂë×îÉÏ·½ NewPath ÓÒ²àÖµ"
+	.PrintL "	[AppDataæ–‡ä»¶å¤¹è½¬æ¥å·¥å…·]"
+	.PrintL "	 é€‰æ‹©åˆ†æ”¯ > é€‰æ‹©æ–‡ä»¶å¤¹åºå· = è½¬æ¥"
+	.PrintL "	 å­˜å‚¨è·¯å¾„å¯ä¿®æ”¹æœ¬å·¥å…·ä»£ç æœ€ä¸Šæ–¹ NewPath å³ä¾§å€¼"
 	.PrintL "	----"
-	.PrintL "	AppDataÂ·¾¶: " & RootPath
-	.PrintL "	´æ´¢Â·¾¶: " & NewPath
+	.PrintL "	AppDataè·¯å¾„: " & RootPath
+	.PrintL "	å­˜å‚¨è·¯å¾„: " & NewPath
 	.PrintL "	----"
 End With
 
 Call Main
 '----
 Sub Main()
-	STD.PrintL "	[·½Ê½]"
-	STD.PrintL "	1	Éè¶¨Á´½Óµ½Ô´"
-	STD.PrintL "	2	Ô´ÎÄ¼ş¼ĞÀïËùÓĞÎÄ¼ş¼ĞÁ´½Óµ½AppData"
-	STD.PrintI "	Ñ¡Ôñ> "
+	STD.PrintL "	[æ–¹å¼]"
+	STD.PrintL "	1	è®¾å®šé“¾æ¥åˆ°æº"
+	STD.PrintL "	2	æºæ–‡ä»¶å¤¹é‡Œæ‰€æœ‰æ–‡ä»¶å¤¹é“¾æ¥åˆ°AppData"
+	STD.PrintI "	é€‰æ‹©> "
 	Dim CM:CM = STD.Input
 	If Not CM = "" Then
 		Select Case CM
@@ -71,7 +72,7 @@ End Sub
 
 '----0s
 Sub SelectMidFolder()
-	STD.PrintL "	[·ÖÖ§]"
+	STD.PrintL "	[åˆ†æ”¯]"
 	Set GEOM_TFO = FSO.GetFolder(RootPath).SubFolders
 	Dim I:I = 0
 	SD.RemoveAll
@@ -81,13 +82,13 @@ Sub SelectMidFolder()
 		I = I + 1
 	Next
 	
-	STD.PrintI "	Ñ¡Ôñ> "
+	STD.PrintI "	é€‰æ‹©> "
 	Dim CM:CM = STD.Input
 	If Not CM = "" Then
 		If SD.Exists(CM) Then
 			MidPath = SD.Item(CM) & "\"
 		Else 
-			STD.PrintL "´íÎó."
+			STD.PrintL "é”™è¯¯."
 		End If
 	Else
 		
@@ -96,7 +97,7 @@ End Sub
 
 '----1s
 Sub SelectFolder()
-	STD.PrintL "	[Ä¿±ê]"
+	STD.PrintL "	[ç›®æ ‡]"
 	Set GEOM_TFO = FSO.GetFolder(RootPath & MidPath).SubFolders
 	Dim I:I = 0
 	SD.RemoveAll
@@ -105,11 +106,11 @@ Sub SelectFolder()
 		Case "History", "Application Data", "Temporary Internet Files"
 		Case Else
 			SD.Add CStr(I), GEOM_TempDataVar.Name
-			STD.PrintL "	" & IIf(SA.NameSpace(PathCC(GEOM_TempDataVar.Path)).Self.IsLink, "ÒÑÁ´½Ó ", "       ") & I & "	" & GEOM_TempDataVar.Name
+			STD.PrintL "	" & IIf(SA.NameSpace(PathCC(GEOM_TempDataVar.Path)).Self.IsLink, "å·²é“¾æ¥ ", "       ") & I & "	" & GEOM_TempDataVar.Name
 			I = I + 1
 		End Select
 	Next
-	STD.PrintI "	Ñ¡Ôñ> "
+	STD.PrintI "	é€‰æ‹©> "
 	Dim CM:CM = STD.Input
 	If Not CM = "" Then
 		If SD.Exists(CM) Then
@@ -117,7 +118,7 @@ Sub SelectFolder()
 			Call MKlink
 			Call SelectFolder
 		Else 
-			STD.PrintL "´íÎó."
+			STD.PrintL "é”™è¯¯."
 		End If
 	Else
 		Call Main
@@ -146,8 +147,8 @@ End Sub
 '----
 Sub MKlink()
 	Dim TempVal:TempVal = "/c mklink /j """ & RootPath & MidPath & TargetPath & """ """ & NewPath & MidPath & TargetPath & """"
-	STD.PrintL "	Ä¿±ê: " & PathC34(RootPath & MidPath & TargetPath)
-	STD.PrintL "	×ª½Ó: " & PathC34(NewPath & MidPath & TargetPath)
+	STD.PrintL "	ç›®æ ‡: " & PathC34(RootPath & MidPath & TargetPath)
+	STD.PrintL "	è½¬æ¥: " & PathC34(NewPath & MidPath & TargetPath)
 	Call SA.NameSpace(PathCC(NewPath & MidPath)).MoveHere(PathCC(RootPath & MidPath & TargetPath))
 	SA.ShellExecute "CMD", TempVal
 	WSH.Sleep 1000
@@ -157,7 +158,7 @@ Function Exec(ByVal ProgramPath)
 	Set ExeCM = WSS.Exec(ProgramPath)
 	Set Exec = ExeCM
  End Function
-Function IIf(ByVal TF, ByVal T, ByVal F) '±ê×¼IIfº¯Êı
+Function IIf(ByVal TF, ByVal T, ByVal F) 'æ ‡å‡†IIfå‡½æ•°
 	If TF = True Then IIf = T Else IIf = F
  End Function
 Function USplit(ByVal GEOM_String, ByVal GEOM_Delimiter)
@@ -165,7 +166,7 @@ Function USplit(ByVal GEOM_String, ByVal GEOM_Delimiter)
 	USplit = GEOM_TempArray(UBound(GEOM_TempArray))
  End Function
 
-Function PathC34(ByVal FP) 'ÅĞ¶ÏÂ·¾¶ÖĞÊÇ·ñº¬ÓĞ¿Õ¸ñ,Ã»ÓĞÔòÈ¥³ı"ºÅ ÓĞÔòÌí¼ÓÉÏ""
+Function PathC34(ByVal FP) 'åˆ¤æ–­è·¯å¾„ä¸­æ˜¯å¦å«æœ‰ç©ºæ ¼,æ²¡æœ‰åˆ™å»é™¤"å· æœ‰åˆ™æ·»åŠ ä¸Š""
 	If InStr(FP, " ") = 0 Then
 		PathC34 = Replace(FP, Chr(34), "")
 	Else
@@ -173,15 +174,15 @@ Function PathC34(ByVal FP) 'ÅĞ¶ÏÂ·¾¶ÖĞÊÇ·ñº¬ÓĞ¿Õ¸ñ,Ã»ÓĞÔòÈ¥³ı"ºÅ ÓĞÔòÌí¼ÓÉÏ""
 	End If
  End Function
 
-Function PathCC(ByVal FP) 'È¥³ıÂ·¾¶µÄ""ºÅ,ÎŞÂÛÓĞÃ»ÓĞ¿Õ¸ñ
+Function PathCC(ByVal FP) 'å»é™¤è·¯å¾„çš„""å·,æ— è®ºæœ‰æ²¡æœ‰ç©ºæ ¼
 	PathCC = Replace(FP, Chr(34), "")
  End Function
 
-Sub EndVBS() 'ÍË³ö½Å±¾
+Sub EndVBS() 'é€€å‡ºè„šæœ¬
 	WScript.Quit
  End Sub
 
-Function IIf(ByVal TF, ByVal T, ByVal F) '±ê×¼IIfº¯Êı
+Function IIf(ByVal TF, ByVal T, ByVal F) 'æ ‡å‡†IIfå‡½æ•°
 	If TF = True Then IIf = T Else IIf = F
  End Function
 
